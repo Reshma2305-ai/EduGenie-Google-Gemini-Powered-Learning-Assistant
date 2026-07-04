@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EduGenie AI | Personalized Learning Assistant</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+<!-- ===========================
+        SIDEBAR
+============================ -->
+
+<div class="sidebar">
+
+    <div class="logo">
+
+        <i class="fas fa-graduation-cap"></i>
+
+        <span>EduGenie</span>
+
+    </div>
+
+    <ul>
+
+        <li class="active">
+            <i class="fas fa-home"></i>
+            Dashboard
+        </li>
+
+        <li>
+            <i class="fas fa-comments"></i>
+            AI Chat
+        </li>
+
+        <li>
+            <i class="fas fa-book-open"></i>
+            Explain
+        </li>
+
+        <li>
+            <i class="fas fa-list-check"></i>
+            Quiz
+        </li>
+
+        <li>
+            <i class="fas fa-file-lines"></i>
+            Summary
+        </li>
+
+        <li>
+            <i class="fas fa-road"></i>
+            Roadmap
+        </li>
+
+        <li>
+            <i class="fas fa-clock"></i>
+            History
+        </li>
+
+        <li>
+            <i class="fas fa-star"></i>
+            Favorites
+        </li>
+
+        <li>
+            <i class="fas fa-gear"></i>
+            Settings
+        </li>
+
+    </ul>
+
+</div>
+
+<!-- ===========================
+      MAIN CONTENT
+============================ -->
+
+<div class="main">
+
+<!-- ===========================
+      TOP NAVBAR
+============================ -->
+
+<header>
+
+<div class="header-left">
+
+<h2>
+
+👋 Welcome,
+
+</h2>
+
+<p>
+
+Your AI Learning Assistant
+
+</p>
+
+</div>
+
+<div class="header-right">
+
+<button id="darkBtn">
+
+<i class="fas fa-moon"></i>
+
+</button>
+
+
+
+
+
+</div>
+
+</header>
+
+<!-- ===========================
+        HERO
+============================ -->
+
+<section class="hero">
+
+<div class="hero-left">
+
+<h1>
+
+Learn Smarter with
+
+<span>Artificial Intelligence</span>
+
+</h1>
+
+<p>
+
+Ask questions, explain concepts,
+generate quizzes, summarize notes,
+and create personalized learning roadmaps
+using Google Gemini AI.
+
+</p>
+
+<div class="hero-buttons">
+
+<button class="primary">
+
+Start Learning
+
+</button>
+
+<button class="secondary">
+
+Explore
+
+</button>
+
+</div>
+
+</div>
+
+<div class="hero-right">
+
+<i class="fas fa-robot robot"></i>
+
+</div>
+
+</section>
+
+<!-- ===========================
+      DASHBOARD
+============================ -->
+
+<section>
+
+<h2 class="title">
+
+Dashboard Overview
+
+</h2>
+
+<div class="stats">
+
+<div class="stat-card">
+
+<i class="fas fa-question-circle"></i>
+
+<h3 id="questionCount">
+
+0
+
+</h3>
+
+<p>
+
+Questions Asked
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<i class="fas fa-list-check"></i>
+
+<h3 id="quizCount">
+
+0
+
+</h3>
+
+<p>
+
+Quiz Generated
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<i class="fas fa-file-lines"></i>
+
+<h3 id="summaryCount">
+
+0
+
+</h3>
+
+<p>
+
+Summaries
+
+</p>
+
+</div>
+
+<div class="stat-card">
+
+<i class="fas fa-road"></i>
+
+<h3 id="roadmapCount">
+
+0
+
+</h3>
+
+<p>
+
+Roadmaps
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===========================
+      AI CHAT
+============================ -->
+
+<section class="chat-section">
+
+<h2 class="title">
+
+🤖 EduGenie AI
+
+</h2>
+
+<div class="chat-container">
+
+<div id="chatBox" class="chat-box">
+
+<div class="bot-message">
+
+<div class="avatar">
+
+🤖
+
+</div>
+
+<div class="message">
+
+Hello Deepika 👋
+
+<br><br>
+
+I'm EduGenie AI.
+
+Ask me anything about programming,
+Data Science,
+Artificial Intelligence,
+or your studies.
+
+</div>
+
+</div>
+
+</div>
+
+<div class="chat-input">
+
+<select id="mode">
+
+<option value="ask">Ask AI</option>
+
+<option value="explain">Explain Concept</option>
+
+<option value="quiz">Generate Quiz</option>
+
+<option value="summary">Summarize</option>
+
+<option value="roadmap">Roadmap</option>
+
+</select>
+
+<input
+
+type="text"
+
+id="askInput"
+
+placeholder="Ask anything...">
+
+<button id="micBtn" onclick="voiceInput()">
+
+<i class="fas fa-microphone"></i>
+
+</button>
+
+<button onclick="sendMessage()">
+
+<i class="fas fa-paper-plane"></i>
+
+</button>
+
+</div>
+
+</div>
+
+</section>
+<!-- ===========================
+        RESPONSE ACTIONS
+============================ -->
+
+<section class="response-tools">
+
+    <div class="tool-card" onclick="copyResponse()">
+        <i class="fas fa-copy"></i>
+        <span>Copy</span>
+    </div>
+
+    <div class="tool-card" onclick="speakText()">
+        <i class="fas fa-volume-up"></i>
+        <span>Speak</span>
+    </div>
+
+    <div class="tool-card" onclick="downloadPDF()">
+        <i class="fas fa-file-pdf"></i>
+        <span>Download PDF</span>
+    </div>
+
+    <div class="tool-card" onclick="saveFavorite()">
+        <i class="fas fa-star"></i>
+        <span>Favorite</span>
+    </div>
+
+</section>
+
+<!-- ===========================
+      QUICK FEATURES
+============================ -->
+
+<section class="features-section">
+
+<h2 class="title">
+
+✨ AI Features
+
+</h2>
+
+<div class="feature-grid">
+
+<div class="feature">
+
+<i class="fas fa-brain"></i>
+
+<h3>Ask AI</h3>
+
+<p>
+
+Get instant AI answers.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<i class="fas fa-book-open"></i>
+
+<h3>Explain Concepts</h3>
+
+<p>
+
+Easy explanations.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<i class="fas fa-list-check"></i>
+
+<h3>Quiz Generator</h3>
+
+<p>
+
+Practice with MCQs.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<i class="fas fa-file-lines"></i>
+
+<h3>Summary</h3>
+
+<p>
+
+Summarize notes.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<i class="fas fa-road"></i>
+
+<h3>Roadmap</h3>
+
+<p>
+
+Learning path.
+
+</p>
+
+</div>
+
+<div class="feature">
+
+<i class="fas fa-language"></i>
+
+<h3>Translator</h3>
+
+<p>
+
+Translate text.
+
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ===========================
+      SUGGESTIONS
+============================ -->
+
+<section>
+
+<h2 class="title">
+
+💡 Suggested Questions
+
+</h2>
+
+<div class="suggestions">
+
+<button onclick="fillQuestion('Explain Machine Learning')">
+
+Machine Learning
+
+</button>
+
+<button onclick="fillQuestion('Generate Python Quiz')">
+
+Python Quiz
+
+</button>
+
+<button onclick="fillQuestion('Roadmap for Data Science')">
+
+Data Science
+
+</button>
+
+<button onclick="fillQuestion('Summarize AI Notes')">
+
+AI Notes
+
+</button>
+
+<button onclick="fillQuestion('Explain DBMS')">
+
+DBMS
+
+</button>
+
+<button onclick="fillQuestion('Explain Cloud Computing')">
+
+Cloud
+
+</button>
+
+</div>
+
+</section>
+
+<!-- ===========================
+      HISTORY
+============================ -->
+
+<section>
+
+<h2 class="title">
+
+🕒 Recent History
+
+</h2>
+
+<div id="historyList" class="history">
+
+<p>
+
+No history available.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ===========================
+      FAVORITES
+============================ -->
+
+<section>
+
+<h2 class="title">
+
+⭐ Favorite Responses
+
+</h2>
+
+<div id="favoriteList" class="history">
+
+<p>
+
+No favorites yet.
+
+</p>
+
+</div>
+
+</section>
+
+<!-- ===========================
+      FOOTER
+============================ -->
+
+<footer>
+
+<div class="footer-content">
+
+<h2>
+
+EduGenie AI
+
+</h2>
+
+<p>
+
+AI Powered Personalized Learning Assistant
+
+</p>
+
+<div class="footer-icons">
+
+<i class="fab fa-github"></i>
+
+<i class="fab fa-linkedin"></i>
+
+<i class="fab fa-twitter"></i>
+
+<i class="fab fa-instagram"></i>
+
+</div>
+
+<p>
+
+© 2026 EduGenie
+
+All Rights Reserved.
+
+</p>
+
+</div>
+
+</footer>
+
+<!-- Floating Chat Button -->
+
+<div class="chat-float">
+
+<i class="fas fa-comments"></i>
+
+</div>
+
+<!-- Toast -->
+
+<div id="toast">
+
+Copied Successfully
+
+</div>
+
+<!-- Loading -->
+
+<div id="loading" class="loading">
+
+<div class="loader"></div>
+
+<p>
+
+AI is Thinking...
+
+</p>
+
+</div>
+
+<script src="script.js"></script>
+
+</div>
+
+</body>
+
+</html>
