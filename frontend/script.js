@@ -794,31 +794,7 @@ function formatAIResponse(text) {
     text = text.replace(/\*\*/g, "");
     text = text.replace(/```/g, "");
     text = text.replace(/---/g, "");
-
-    // Quiz formatting
-    const quiz = JSON.parse(data.response);
-
-quiz.quiz.forEach((q, index) => {
-
-    addBotMessage(`
-Question ${index + 1}
-
-${q.question}
-
-A. ${q.options[0]}
-
-B. ${q.options[1]}
-
-C. ${q.options[2]}
-
-D. ${q.options[3]}
-
-Correct Answer: ${q.answer}
-`);
-
-});
-
-    // Roadmap formatting
+ // Roadmap formatting
     text = text.replace(/Beginner/gi, "\n📘 Beginner");
     text = text.replace(/Intermediate/gi, "\n📗 Intermediate");
     text = text.replace(/Advanced/gi, "\n📕 Advanced");
