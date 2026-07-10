@@ -1,276 +1,316 @@
-// ==========================================
-// EduGenie AI - Professional Script.js
-// Part 1
-// ==========================================
+/* ==========================================
+   EduGenie AI Learning Assistant
+   script.js - Part 1
+========================================== */
 
+// ===============================
 // Backend URL
-const API_URL = "http://127.0.0.1:8000";
+// ===============================
 
-// -------------------------------
-// Elements
-// -------------------------------
+// Local FastAPI
+const API_BASE = "http://127.0.0.1:8000";
 
-const chatBox = document.getElementById("chatBox");
-const askInput = document.getElementById("askInput");
-const mode = document.getElementById("mode");
+// For Render deployment use:
+// const API_BASE = "https://your-render-url.onrender.com";
+
+
+// ===============================
+// DOM Elements
+// ===============================
+
+const toolSelect = document.getElementById("tool");
+
+const userInput = document.getElementById("userInput");
+
+const submitBtn = document.getElementById("submitBtn");
+
+const responseBox = document.getElementById("response");
+
 const loading = document.getElementById("loading");
 
-// -------------------------------
-// Send Message
-// -------------------------------
+const scrollTopBtn = document.getElementById("scrollTop");
 
-async function sendMessage() {
+const floatingAI = document.getElementById("floatingAI");
 
-    const text = askInput.value.trim();
+const toast = document.getElementById("toast");
 
-    if (text === "") {
-        alert("Please enter a question.");
+const toastText = document.getElementById("toastText");
+
+const darkBtn = document.getElementById("themeBtn");
+const voiceBtn = document.getElementById("voiceBtn");
+const speakBtn = document.getElementById("speakBtn");
+const stopSpeakBtn = document.getElementById("stopSpeakBtn");
+const copyBtn=document.getElementById("copyBtn");
+
+const downloadTxtBtn=document.getElementById("downloadTxtBtn");
+
+const downloadPdfBtn=document.getElementById("downloadPdfBtn");
+
+
+
+
+const pdfFile = document.getElementById("pdfFile");
+
+const choosePdfBtn = document.getElementById("choosePdfBtn");
+
+const uploadPdfBtn = document.getElementById("uploadPdfBtn");
+
+const pdfName = document.getElementById("pdfName");
+
+
+// ===============================
+// Toast Notification
+// ===============================
+
+function showToast(message){
+
+    toastText.innerText = message;
+
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+
+        toast.classList.remove("show");
+
+    },3000);
+
+}
+
+
+// ===============================
+// Loading Animation
+// ===============================
+
+function showLoading(){
+
+    loading.classList.remove("hidden");
+
+}
+
+function hideLoading(){
+
+    loading.classList.add("hidden");
+
+}
+
+
+// ===============================
+// Scroll To Top
+// ===============================
+
+window.addEventListener("scroll",()=>{
+
+    if(window.scrollY>300){
+
+        scrollTopBtn.style.display="block";
+
+    }else{
+
+        scrollTopBtn.style.display="none";
+
+    }
+
+});
+
+scrollTopBtn.addEventListener("click",()=>{
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+});
+
+
+// ===============================
+// Floating AI Button
+// ===============================
+choosePdfBtn.addEventListener("click", () => {
+
+    pdfFile.click();
+
+});
+pdfFile.addEventListener("change", () => {
+
+    if(pdfFile.files.length > 0){
+
+        pdfName.textContent = pdfFile.files[0].name;
+
+    }
+
+    else{
+
+        pdfName.textContent = "No file selected";
+
+    }
+
+});
+floatingAI.addEventListener("click",()=>{
+
+    userInput.focus();
+
+    userInput.scrollIntoView({
+
+        behavior:"smooth",
+
+        block:"center"
+
+    });
+
+});
+uploadPdfBtn.addEventListener("click", async () => {
+
+    if(pdfFile.files.length === 0){
+
+        alert("Please choose a PDF first.");
+
         return;
+
     }
 
-    addUserMessage(text);
+    const formData = new FormData();
 
-    askInput.value = "";
+    formData.append("file", pdfFile.files[0]);
 
-    loading.style.display = "flex";
+    responseBox.innerHTML = `
+        <div class="loading">
+            ⏳ Uploading PDF...
+        </div>
+    `;
 
-    let endpoint = "";
+    try{
 
-    switch (mode.value) {
+        const response = await fetch("http://127.0.0.1:8000/upload-pdf",{
 
-        case "ask":
-            endpoint = "/ask";
-            break;
+            method:"POST",
 
-        case "explain":
-            endpoint = "/explain";
-            break;
-
-        case "quiz":
-            endpoint = "/quiz";
-            break;
-
-        case "summary":
-            endpoint = "/summary";
-            break;
-
-        case "roadmap":
-            endpoint = "/roadmap";
-            break;
-    }
-
-    try {
-
-        const response = await fetch(API_URL + endpoint, {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                text: text
-            })
+            body:formData
 
         });
 
         const data = await response.json();
 
-        loading.style.display = "none";
+        if(data.success){
 
-        let answer = data.response || "No response.";
+            responseBox.innerHTML = `
+                <h3>📄 PDF Summary</h3>
+                <pre>${data.response}</pre>
+            `;
 
-        // Format quiz if Quiz mode
-        if (mode.value === "quiz") {
-            answer = formatQuiz(answer);
         }
 
-        typingEffect(answer);
+        else{
+
+            responseBox.innerHTML = `
+                <span style="color:red">
+                    ${data.response}
+                </span>
+            `;
+
+        }
 
     }
 
-    catch (error) {
-
-        loading.style.display = "none";
-
-        addBotMessage("❌ Unable to connect to backend.");
+    catch(error){
 
         console.log(error);
 
-    }
-
-}
-
-// -------------------------------
-// Format Quiz
-// -------------------------------
-
-function formatQuiz(text) {
-
-    text = text.replace(/Question\s*(\d+):/gi, "\n\nQuestion $1\n");
-
-    text = text.replace(/\s+A\./g, "\n\nA.");
-    text = text.replace(/\s+B\./g, "\nB.");
-    text = text.replace(/\s+C\./g, "\nC.");
-    text = text.replace(/\s+D\./g, "\nD.");
-
-    text = text.replace(/Answer:/gi, "\n\n✅ Correct Answer:");
-
-    return text;
-
-}
-
-// -------------------------------
-// Typing Animation
-// -------------------------------
-
-function typingEffect(text) {
-
-    const bot = document.createElement("div");
-
-    bot.className = "bot-message";
-
-    bot.innerHTML = `
-
-        <div class="avatar">🤖</div>
-
-        <div class="message"></div>
-
-    `;
-
-    chatBox.appendChild(bot);
-
-    const msg = bot.querySelector(".message");
-
-    let i = 0;
-
-    const speed = 10;
-
-    function type() {
-
-        if (i < text.length) {
-
-            msg.innerHTML += text.charAt(i);
-
-            i++;
-
-            chatBox.scrollTop = chatBox.scrollHeight;
-
-            setTimeout(type, speed);
-
-        }
+        responseBox.innerHTML = `
+            <span style="color:red">
+                Unable to connect to backend.
+            </span>
+        `;
 
     }
 
-    type();
+});
+
+// ===============================
+// Dark Mode
+// ===============================
+
+if(localStorage.getItem("theme")==="dark"){
+
+    document.body.classList.add("dark");
 
 }
 
-// -------------------------------
-// User Message
-// -------------------------------
+darkBtn.addEventListener("click",()=>{
 
-function addUserMessage(text) {
+    document.body.classList.toggle("dark");
 
-    chatBox.innerHTML += `
+    if(document.body.classList.contains("dark")){
 
-    <div class="user-message">
+        localStorage.setItem("theme","dark");
 
-        <div class="avatar">👤</div>
+    }else{
 
-        <div class="message">
-
-            ${text}
-
-        </div>
-
-    </div>
-
-    `;
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-}
-
-// -------------------------------
-// Bot Message
-// -------------------------------
-
-function addBotMessage(text) {
-
-    chatBox.innerHTML += `
-
-    <div class="bot-message">
-
-        <div class="avatar">🤖</div>
-
-        <div class="message" style="white-space:pre-wrap;line-height:1.8">
-
-            ${text}
-
-        </div>
-
-    </div>
-
-    `;
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-}
-
-// -------------------------------
-// Suggested Question
-// -------------------------------
-
-function fillQuestion(question) {
-
-    askInput.value = question;
-
-}
-
-// -------------------------------
-// Enter Key
-// -------------------------------
-
-askInput.addEventListener("keypress", function (e) {
-
-    if (e.key === "Enter") {
-
-        sendMessage();
+        localStorage.setItem("theme","light");
 
     }
 
-});// ==========================================
-// EduGenie AI - Professional Script.js
-// Part 2
-// ==========================================
+});
 
-// -------------------------------
-// Get Last AI Response
-// -------------------------------
 
-function getLastBotResponse() {
+// ===============================
+// API Mapping
+// ===============================
 
-    const messages = document.querySelectorAll(".bot-message .message");
+function getEndpoint(){
 
-    if(messages.length === 0) return "";
+    const tool = toolSelect.value;
 
-    return messages[messages.length - 1].innerText;
+    switch(tool){
+
+        case "qna":
+
+            return "/qna";
+
+        case "explain":
+
+            return "/explain";
+
+        case "summary":
+
+            return "/summarize";
+
+        case "quiz":
+
+            return "/quiz";
+
+        case "learning":
+
+            return "/learning-path";
+
+        default:
+
+            return "/qna";
+
+    }
+
+}function showToast(message){
+
+    toastText.innerText=message;
+
+    toast.classList.add("show");
+
+    setTimeout(()=>{
+
+        toast.classList.remove("show");
+
+    },2500);
 
 }
+copyBtn.addEventListener("click",()=>{
 
-// -------------------------------
-// Copy Response
-// -------------------------------
+    const text=responseBox.innerText;
 
-function copyResponse(){
+    if(text===""){
 
-    const text = getLastBotResponse();
-
-    if(text === ""){
-
-        alert("No response available.");
+        showToast("No response available.");
 
         return;
 
@@ -278,19 +318,244 @@ function copyResponse(){
 
     navigator.clipboard.writeText(text);
 
-    showToast("✅ Response Copied");
+    showToast("Response copied successfully!");
+
+});
+copyBtn.addEventListener("click",()=>{
+
+    const text=responseBox.innerText;
+
+    if(text===""){
+
+        showToast("No response available.");
+
+        return;
+
+    }
+
+    navigator.clipboard.writeText(text);
+
+    showToast("Response copied successfully!");
+
+});
+downloadTxtBtn.addEventListener("click",()=>{
+
+    const text=responseBox.innerText;
+
+    if(text===""){
+
+        showToast("Nothing to download.");
+
+        return;
+
+    }
+
+    const blob=new Blob([text],{
+
+        type:"text/plain"
+
+    });
+
+    const link=document.createElement("a");
+
+    link.href=URL.createObjectURL(blob);
+
+    link.download="EduGenie_Response.txt";
+
+    link.click();
+
+    showToast("TXT downloaded.");
+
+});
+downloadPdfBtn.addEventListener("click",()=>{
+
+    const text=responseBox.innerText;
+
+    if(text===""){
+
+        showToast("Nothing to download.");
+
+        return;
+
+    }
+
+    const { jsPDF }=window.jspdf;
+
+    const pdf=new jsPDF();
+
+    const lines=pdf.splitTextToSize(text,180);
+
+    pdf.text(lines,10,20);
+
+    pdf.save("EduGenie_Response.pdf");
+
+    showToast("PDF downloaded.");
+
+});/* ==========================================
+   EduGenie AI Learning Assistant
+   script.js - Part 2
+========================================== */
+
+// ===============================
+// Generate AI Response
+// ===============================
+
+submitBtn.addEventListener("click", async () => {
+
+    const text = userInput.value.trim();
+
+    if(text===""){
+
+        showToast("Please enter your question.");
+
+        return;
+
+    }
+
+    responseBox.innerHTML="";
+
+    showLoading();
+
+    try{
+
+        const endpoint = getEndpoint();
+
+        const response = await fetch(API_BASE + endpoint,{
+
+            method:"POST",
+
+            headers:{
+
+                "Content-Type":"application/json"
+
+            },
+
+            body:JSON.stringify({
+
+                text:text
+
+            })
+
+        });
+
+        if(!response.ok){
+
+            throw new Error("Server Error");
+
+        }
+
+        const data = await response.json();
+
+        hideLoading();
+
+        typeWriter(data.response);
+
+        showToast("Response Generated Successfully");
+
+    }
+
+    catch(error){
+
+        hideLoading();
+
+        responseBox.innerHTML=`
+
+        <div style="color:red;
+                    font-size:18px;
+                    font-weight:600;">
+
+            ❌ Unable to connect to FastAPI Server
+
+            <br><br>
+
+            Make sure
+
+            <br>
+
+            ✔ Backend is running
+
+            <br>
+
+            ✔ URL is correct
+
+            <br>
+
+            ✔ CORS is enabled
+
+        </div>
+
+        `;
+
+        console.error(error);
+
+        showToast("Connection Failed");
+
+    }
+
+});
+const SpeechRecognition =
+window.SpeechRecognition ||
+window.webkitSpeechRecognition;
+
+if(SpeechRecognition){
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang="en-US";
+
+    recognition.interimResults=false;
+
+    recognition.maxAlternatives=1;
+
+    voiceBtn.addEventListener("click",()=>{
+
+        recognition.start();
+
+        voiceBtn.innerHTML="🎙 Listening...";
+
+    });
+
+    recognition.onresult=(event)=>{
+
+        const speech=event.results[0][0].transcript;
+
+        userInput.value=speech;
+
+        voiceBtn.innerHTML="🎤 Voice Input";
+
+    };
+
+    recognition.onerror=()=>{
+
+        alert("Voice recognition failed.");
+
+        voiceBtn.innerHTML="🎤 Voice Input";
+
+    };
+
+    recognition.onend=()=>{
+
+        voiceBtn.innerHTML="🎤 Voice Input";
+
+    };
 
 }
+else{
 
-// -------------------------------
-// Text To Speech
-// -------------------------------
+    voiceBtn.disabled=true;
 
-function speakText(){
+    voiceBtn.innerHTML="Voice Not Supported";
 
-    const text = getLastBotResponse();
+}
+let speech;
 
-    if(text === ""){
+speakBtn.addEventListener("click",()=>{
+
+    speechSynthesis.cancel();
+
+    const text=responseBox.innerText;
+
+    if(text===""){
 
         alert("No response available.");
 
@@ -298,574 +563,136 @@ function speakText(){
 
     }
 
-    speechSynthesis.cancel();
+    speech=new SpeechSynthesisUtterance(text);
 
-    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang="en-US";
 
-    speech.lang = "en-US";
+    speech.rate=1;
 
-    speech.rate = 1;
+    speech.pitch=1;
 
-    speech.pitch = 1;
-
-    speech.volume = 1;
+    speech.volume=1;
 
     speechSynthesis.speak(speech);
 
-}
+});
+stopSpeakBtn.addEventListener("click",()=>{
 
-// -------------------------------
-// Voice Input
-// -------------------------------
+    speechSynthesis.cancel();
 
-function voiceInput(){
+});
 
-    if(!("webkitSpeechRecognition" in window)){
 
-        alert("Speech Recognition is not supported.");
+// ===============================
+// Enter Key Support
+// ===============================
 
-        return;
+userInput.addEventListener("keydown",(event)=>{
 
-    }
+    if(event.key==="Enter" && event.ctrlKey){
 
-    const recognition = new webkitSpeechRecognition();
-
-    recognition.lang = "en-US";
-
-    recognition.interimResults = false;
-
-    recognition.maxAlternatives = 1;
-
-    recognition.start();
-
-    const mic = document.getElementById("micBtn");
-
-    if(mic){
-
-        mic.classList.add("recording");
-
-    }
-
-    recognition.onresult = function(event){
-
-        askInput.value = event.results[0][0].transcript;
-
-    };
-
-    recognition.onerror = function(){
-
-        showToast("Voice Recognition Error");
-
-    };
-
-    recognition.onend = function(){
-
-        if(mic){
-
-            mic.classList.remove("recording");
-
-        }
-
-    };
-
-}
-
-// -------------------------------
-// Download PDF
-// -------------------------------
-
-function downloadPDF(){
-
-    const text = getLastBotResponse();
-
-    if(text === ""){
-
-        alert("Nothing to download.");
-
-        return;
-
-    }
-
-    const win = window.open("", "_blank");
-
-    win.document.write(`
-
-    <html>
-
-    <head>
-
-        <title>EduGenie Response</title>
-
-    </head>
-
-    <body style="font-family:Arial;padding:40px;">
-
-        <h1>EduGenie AI</h1>
-
-        <hr>
-
-        <pre style="white-space:pre-wrap;font-size:18px;">
-
-${text}
-
-        </pre>
-
-    </body>
-
-    </html>
-
-    `);
-
-    win.print();
-
-}
-
-// -------------------------------
-// Favorites
-// -------------------------------
-
-let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-function saveFavorite(){
-
-    const text = getLastBotResponse();
-
-    if(text === ""){
-
-        showToast("No response found.");
-
-        return;
-
-    }
-
-    favorites.unshift(text);
-
-    favorites = favorites.slice(0,10);
-
-    localStorage.setItem("favorites",JSON.stringify(favorites));
-
-    loadFavorites();
-
-    showToast("⭐ Saved");
-
-}
-
-function loadFavorites(){
-
-    const list = document.getElementById("favoriteList");
-
-    if(!list) return;
-
-    list.innerHTML = "";
-
-    favorites.forEach(item=>{
-
-        list.innerHTML += `
-
-        <div class="favorite-item">
-
-            ${item.substring(0,120)}...
-
-        </div>
-
-        `;
-
-    });
-
-}
-
-loadFavorites();
-
-// -------------------------------
-// Chat History
-// -------------------------------
-
-let history = JSON.parse(localStorage.getItem("history")) || [];
-
-function saveHistory(question){
-
-    history.unshift(question);
-
-    history = history.slice(0,15);
-
-    localStorage.setItem("history",JSON.stringify(history));
-
-    loadHistory();
-
-}
-
-function loadHistory(){
-
-    const list = document.getElementById("historyList");
-
-    if(!list) return;
-
-    list.innerHTML = "";
-
-    history.forEach(item=>{
-
-        list.innerHTML += `
-
-        <div class="history-item"
-
-        onclick="fillQuestion('${item.replace(/'/g,"\\'")}')">
-
-        ${item}
-
-        </div>
-
-        `;
-
-    });
-
-}
-
-loadHistory();// ==========================================
-// EduGenie AI - Professional Script.js
-// Part 3
-// ==========================================
-
-// -------------------------------
-// Dark Mode
-// -------------------------------
-
-const darkBtn = document.getElementById("darkBtn");
-
-if (darkBtn) {
-
-    darkBtn.onclick = () => {
-
-        document.body.classList.toggle("dark");
-
-        if (document.body.classList.contains("dark")) {
-
-            localStorage.setItem("theme", "dark");
-
-            showToast("🌙 Dark Mode Enabled");
-
-        } else {
-
-            localStorage.setItem("theme", "light");
-
-            showToast("☀️ Light Mode Enabled");
-
-        }
-
-    };
-
-}
-
-// Load Saved Theme
-
-window.addEventListener("load", () => {
-
-    const theme = localStorage.getItem("theme");
-
-    if (theme === "dark") {
-
-        document.body.classList.add("dark");
+        submitBtn.click();
 
     }
 
 });
 
-// -------------------------------
-// Statistics Dashboard
-// -------------------------------
 
-function updateStats(type) {
+// ===============================
+// Clear Response when Tool Changes
+// ===============================
 
-    function increase(id) {
+toolSelect.addEventListener("change",()=>{
 
-        let value = Number(localStorage.getItem(id)) || 0;
+    responseBox.innerHTML=`
 
-        value++;
+    <div style="opacity:.6">
 
-        localStorage.setItem(id, value);
+        Ready for new request...
 
-        const element = document.getElementById(id);
-
-        if (element) {
-
-            element.innerText = value;
-
-        }
-
-    }
-
-    switch (type) {
-
-        case "ask":
-            increase("questionCount");
-            break;
-
-        case "quiz":
-            increase("quizCount");
-            break;
-
-        case "summary":
-            increase("summaryCount");
-            break;
-
-        case "roadmap":
-            increase("roadmapCount");
-            break;
-
-        case "explain":
-            increase("questionCount");
-            break;
-
-    }
-
-}
-
-// -------------------------------
-// Load Statistics
-// -------------------------------
-
-function loadStats() {
-
-    const ids = [
-
-        "questionCount",
-
-        "quizCount",
-
-        "summaryCount",
-
-        "roadmapCount"
-
-    ];
-
-    ids.forEach(id => {
-
-        const element = document.getElementById(id);
-
-        if (element) {
-
-            element.innerText =
-
-                localStorage.getItem(id) || 0;
-
-        }
-
-    });
-
-}
-
-loadStats();
-
-// -------------------------------
-// Toast Notification
-// -------------------------------
-
-function showToast(message) {
-
-    const toast = document.getElementById("toast");
-
-    if (!toast) return;
-
-    toast.innerText = message;
-
-    toast.classList.add("show");
-
-    setTimeout(() => {
-
-        toast.classList.remove("show");
-
-    }, 2500);
-
-}
-
-// -------------------------------
-// Scroll Animation
-// -------------------------------
-
-const observer = new IntersectionObserver(entries => {
-
-    entries.forEach(entry => {
-
-        if (entry.isIntersecting) {
-
-            entry.target.classList.add("show");
-
-        }
-
-    });
-
-});
-
-document.querySelectorAll(
-
-    ".feature,.tool-card,.stat-card,.history"
-
-).forEach(el => {
-
-    el.classList.add("hidden");
-
-    observer.observe(el);
-
-});
-
-// -------------------------------
-// Auto Scroll Chat
-// -------------------------------
-
-function scrollChat() {
-
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-}
-
-// -------------------------------
-// Clear Chat
-// -------------------------------
-
-function clearChat() {
-
-    if (confirm("Clear chat history?")) {
-
-        chatBox.innerHTML = "";
-
-        showToast("🗑️ Chat Cleared");
-
-    }
-
-}
-
-// -------------------------------
-// Clear Favorites
-// -------------------------------
-
-function clearFavorites() {
-
-    favorites = [];
-
-    localStorage.removeItem("favorites");
-
-    loadFavorites();
-
-    showToast("⭐ Favorites Cleared");
-
-}
-
-// -------------------------------
-// Clear History
-// -------------------------------
-
-function clearHistory() {
-
-    history = [];
-
-    localStorage.removeItem("history");
-
-    loadHistory();
-
-    showToast("🗑️ History Cleared");
-
-}
-
-// -------------------------------
-// Window Loaded
-// -------------------------------
-
-window.onload = () => {
-
-    loadHistory();
-
-    loadFavorites();
-
-    loadStats();
-
-};// ==========================================
-// EduGenie AI - Professional Script.js
-// Part 4 (Final)
-// ==========================================
-
-// -------------------------------
-// Format AI Response
-// -------------------------------
-
-function formatAIResponse(text) {
-
-    if (!text) return "";
-
-    // Remove markdown
-    text = text.replace(/\*\*/g, "");
-    text = text.replace(/```/g, "");
-    text = text.replace(/---/g, "");
- // Roadmap formatting
-    text = text.replace(/Beginner/gi, "\n📘 Beginner");
-    text = text.replace(/Intermediate/gi, "\n📗 Intermediate");
-    text = text.replace(/Advanced/gi, "\n📕 Advanced");
-    text = text.replace(/Projects/gi, "\n💻 Projects");
-    text = text.replace(/Resources/gi, "\n📚 Resources");
-
-    return text.trim();
-
-}
-
-// -------------------------------
-// Loading
-// -------------------------------
-
-function showLoading() {
-
-    if (loading) {
-
-        loading.style.display = "flex";
-
-    }
-
-}
-
-function hideLoading() {
-
-    if (loading) {
-
-        loading.style.display = "none";
-
-    }
-
-}
-
-// -------------------------------
-// Typing Effect
-// -------------------------------
-
-function typingEffect(message) {
-
-    message = formatAIResponse(message);
-
-    const wrapper = document.createElement("div");
-
-    wrapper.className = "bot-message";
-
-    wrapper.innerHTML = `
-
-        <div class="avatar">🤖</div>
-
-        <div class="message"></div>
+    </div>
 
     `;
 
-    chatBox.appendChild(wrapper);
+});
 
-    const output = wrapper.querySelector(".message");
 
-    let i = 0;
+// ===============================
+// Character Counter
+// ===============================
 
-    const speed = 8;
+const counter=document.createElement("div");
 
-    function type() {
+counter.style.marginTop="10px";
 
-        if (i < message.length) {
+counter.style.textAlign="right";
 
-            output.innerHTML += message.charAt(i);
+counter.style.fontSize="14px";
 
-            i++;
+counter.style.color="#777";
 
-            chatBox.scrollTop = chatBox.scrollHeight;
+userInput.parentNode.appendChild(counter);
+
+userInput.addEventListener("input",()=>{
+
+    counter.innerHTML=
+
+    userInput.value.length+
+
+    " Characters";
+
+});
+
+
+// ===============================
+// Disable Button During Request
+// ===============================
+
+function disableButton(){
+
+    submitBtn.disabled=true;
+
+    submitBtn.innerHTML=
+
+    '<i class="fa fa-spinner fa-spin"></i> Processing...';
+
+}
+
+function enableButton(){
+
+    submitBtn.disabled=false;
+
+    submitBtn.innerHTML=
+
+    '<i class="fa-solid fa-paper-plane"></i> Generate';
+
+}
+/* ==========================================
+   EduGenie AI Learning Assistant
+   script.js - Part 3
+========================================== */
+
+// ===============================
+// Typewriter Effect
+// ===============================
+
+function typeWriter(text){
+
+    responseBox.innerHTML = "";
+
+    let index = 0;
+
+    const speed = 15;
+
+    function type(){
+
+        if(index < text.length){
+
+            responseBox.innerHTML += text.charAt(index);
+
+            index++;
+
+            responseBox.scrollTop = responseBox.scrollHeight;
 
             setTimeout(type, speed);
 
@@ -877,98 +704,214 @@ function typingEffect(message) {
 
 }
 
-// -------------------------------
-// Smooth Scroll
-// -------------------------------
+// ===============================
+// Welcome Toast
+// ===============================
 
-function scrollBottom() {
+window.addEventListener("load",()=>{
 
-    chatBox.scrollTo({
+    setTimeout(()=>{
 
-        top: chatBox.scrollHeight,
+        showToast("Welcome to EduGenie AI 🚀");
 
-        behavior: "smooth"
+    },800);
 
-    });
+});
 
-}
+// ===============================
+// Animated Statistics
+// ===============================
 
-// -------------------------------
-// Focus Input
-// -------------------------------
+const statNumbers=document.querySelectorAll(".stat-card h2");
 
-function focusInput() {
+statNumbers.forEach((card)=>{
 
-    askInput.focus();
+    const value=card.innerText;
 
-}
+    if(!isNaN(parseInt(value))){
 
-// -------------------------------
-// Reset Input
-// -------------------------------
+        let current=0;
 
-function resetInput() {
+        let target=parseInt(value);
 
-    askInput.value = "";
+        let timer=setInterval(()=>{
 
-    focusInput();
+            current++;
 
-}
+            card.innerText=current+"+";
 
-// -------------------------------
-// Keyboard Shortcut
-// -------------------------------
+            if(current>=target){
 
-document.addEventListener("keydown", function(e){
+                clearInterval(timer);
 
-    if(e.ctrlKey && e.key==="Enter"){
+                card.innerText=value;
 
-        sendMessage();
+            }
+
+        },20);
 
     }
 
 });
 
-// -------------------------------
-// Welcome Message
-// -------------------------------
+// ===============================
+// Sidebar Active Menu
+// ===============================
 
-window.addEventListener("load", ()=>{
+const menuItems=document.querySelectorAll(".sidebar ul li");
 
-    setTimeout(()=>{
+menuItems.forEach((item)=>{
 
-        if(chatBox.children.length===0){
+    item.addEventListener("click",()=>{
 
-            addBotMessage(
+        menuItems.forEach((i)=>{
 
-`👋 Welcome to EduGenie AI!
+            i.classList.remove("active");
 
-I can help you with:
+        });
 
-📘 Ask Questions
+        item.classList.add("active");
 
-📖 Explain Concepts
-
-📝 Generate Quizzes
-
-📄 Summarize Notes
-
-🛣️ Learning Roadmaps`
-
-            );
-
-        }
-
-    },600);
+    });
 
 });
 
-// -------------------------------
-// Auto Focus
-// -------------------------------
+// ===============================
+// Keyboard Shortcut
+// Ctrl + Enter
+// ===============================
 
-focusInput();
+document.addEventListener("keydown",(e)=>{
 
-// -------------------------------
-// End of File
-// -------------------------------
+    if(e.ctrlKey && e.key==="Enter"){
+
+        submitBtn.click();
+
+    }
+
+});
+
+// ===============================
+// Escape clears textbox
+// ===============================
+
+document.addEventListener("keydown",(e)=>{
+
+    if(e.key==="Escape"){
+
+        userInput.value="";
+
+    }
+
+});
+
+// ===============================
+// Auto Resize Textarea
+// ===============================
+
+userInput.addEventListener("input",()=>{
+
+    userInput.style.height="auto";
+
+    userInput.style.height=userInput.scrollHeight+"px";
+
+});
+
+// ===============================
+// Floating Button Animation
+// ===============================
+
+setInterval(()=>{
+
+    floatingAI.animate(
+
+        [
+
+            {transform:"translateY(0px)"},
+
+            {transform:"translateY(-8px)"},
+
+            {transform:"translateY(0px)"}
+
+        ],
+
+        {
+
+            duration:1800
+
+        }
+
+    );
+
+},1800);
+
+// ===============================
+// Copy Response on Double Click
+// ===============================
+
+responseBox.addEventListener("dblclick",()=>{
+
+    const text=responseBox.innerText;
+
+    if(text.trim()==="") return;
+
+    navigator.clipboard.writeText(text);
+
+    showToast("Response copied to clipboard!");
+
+});
+
+// ===============================
+// Tool Change Placeholder
+// ===============================
+
+toolSelect.addEventListener("change",()=>{
+
+    const tool=toolSelect.value;
+
+    switch(tool){
+
+        case "qna":
+
+            userInput.placeholder="Ask any educational question...";
+
+            break;
+
+        case "explain":
+
+            userInput.placeholder="Enter a concept to explain...";
+
+            break;
+
+        case "summary":
+
+            userInput.placeholder="Paste text to summarize...";
+
+            break;
+
+        case "quiz":
+
+            userInput.placeholder="Enter a topic for quiz generation...";
+
+            break;
+
+        case "learning":
+
+            userInput.placeholder="Enter a topic for a learning path...";
+
+            break;
+
+    }
+
+});
+
+// ===============================
+// Console Message
+// ===============================
+
+console.log("%cEduGenie AI Learning Assistant","color:#2563eb;font-size:20px;font-weight:bold;");
+console.log("Powered by FastAPI + Google Gemini");
+
+// ===============================
+// End
+// ===============================
