@@ -59,13 +59,7 @@ Documentation/EDUGENIE_Project_Report.pdf
 ---
 
 ## Demo Video
-
-Add your Google Drive or YouTube demo video link here.
-
-Example:
-
-```
-https://drive.google.com/your-demo-video-link
+https://drive.google.com/file/d/105DCiruNambyUuyNr6lS5ArOwjUy50BI/view?usp=sharing
 ```
 
 ---
