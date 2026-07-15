@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>EduGenie AI Learning Assistant</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- Sidebar -->
+
+    <aside class="sidebar">
+
+        <div class="logo">
+
+            <i class="fa-solid fa-graduation-cap"></i>
+
+            <h2>EduGenie</h2>
+
+        </div>
+
+        <ul>
+
+            <li class="active">
+                <i class="fa-solid fa-house"></i>
+                Dashboard
+            </li>
+
+            <li>
+                <i class="fa-solid fa-comments"></i>
+                AI Chat
+            </li>
+
+            <li>
+                <i class="fa-solid fa-book"></i>
+                Learning
+            </li>
+
+            <li>
+                <i class="fa-solid fa-circle-question"></i>
+                Quiz
+            </li>
+
+            <li>
+                <i class="fa-solid fa-file-lines"></i>
+                Summary
+            </li>
+
+            <li>
+                <i class="fa-solid fa-road"></i>
+                Learning Path
+            </li>
+
+            <li>
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                History
+            </li>
+
+            <li>
+                <i class="fa-solid fa-gear"></i>
+                Settings
+            </li>
+
+        </ul>
+
+    </aside>
+
+    <!-- Main Content -->
+
+    <main class="main">
+
+        <!-- Navbar -->
+
+        <header class="navbar">
+
+            <h1>
+                EduGenie AI Learning Assistant
+            </h1>
+
+            <div class="profile">
+
+                <button id="themeBtn">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+
+              
+
+                <span>Deepika</span>
+
+            </div>
+
+        </header>
+
+        <!-- Hero Section -->
+
+        <section class="hero">
+
+            <div class="hero-text">
+
+                <h2>
+                    Learn Smarter with AI
+                </h2>
+
+                <p>
+
+                    Ask questions, generate quizzes, summarize notes,
+                    explain concepts, and receive personalized learning
+                    recommendations using Google Gemini AI.
+
+                </p>
+
+            </div>
+
+            <div class="hero-icon">
+
+                <i class="fa-solid fa-robot"></i>
+
+            </div>
+
+        </section>
+        
+
+        <!-- AI Workspace -->
+
+        <section class="workspace">
+
+            <h2>
+
+                AI Workspace
+
+            </h2>
+
+            <div class="tool">
+
+                <select id="tool">
+
+                    <option value="qna">
+                        Question Answering
+                    </option>
+
+                    <option value="explain">
+                        Explain Concept
+                    </option>
+
+                    <option value="summary">
+                        Summarize
+                    </option>
+
+                    <option value="quiz">
+                        Quiz Generator
+                    </option>
+
+                    <option value="learning">
+                        Learning Path
+                    </option>
+
+                </select>
+
+            </div>
+                        <!-- AI Input Card -->
+<!-- ===========================
+PDF Upload Section
+=========================== -->
+
+<div class="pdf-upload-card">
+
+    <h3>
+        <i class="fa-solid fa-file-pdf"></i>
+        Upload PDF Notes
+    </h3>
+
+    <p class="upload-text">
+        Upload your study notes, books, or documents.
+        EduGenie will summarize them using AI.
+    </p>
+
+    <div class="upload-box">
+
+        <input
+            type="file"
+            id="pdfFile"
+            accept=".pdf"
+            hidden
+        >
+
+        <button id="choosePdfBtn" class="upload-btn">
+
+            <i class="fa-solid fa-upload"></i>
+
+            Choose PDF
+
+        </button>
+
+        <span id="pdfName">
+
+            No file selected
+
+        </span>
+
+    </div>
+
+    <button id="uploadPdfBtn" class="generate-btn">
+
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+        Summarize PDF
+
+    </button>
+
+</div>
+           
+                        <div class="card ai-card">
+
+                <div class="card-header">
+
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+
+                    <h3>Ask EduGenie</h3>
+
+                </div>
+
+                <textarea
+                    id="userInput"
+                    placeholder="Enter your Question or Topic..."
+                ></textarea>
+
+                <button id="submitBtn">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Generate
+
+                </button>
+
+            </div>
+            <div class="voice-controls">
+
+    <button id="voiceBtn" class="action-btn">
+        🎤 Voice Input
+    </button>
+
+    <button id="speakBtn" class="action-btn">
+        🔊 Speak
+    </button>
+
+    <button id="stopSpeakBtn" class="action-btn">
+        ⏹ Stop
+    </button>
+
+</div>
+
+            <!-- Loading -->
+
+            <div id="loading" class="loading hidden">
+
+                <div class="loader"></div>
+
+                <p>EduGenie is thinking...</p>
+
+            </div>
+
+            <!-- Output -->
+
+            <div class="card output-card">
+
+                <div class="card-header">
+
+                    <i class="fa-solid fa-robot"></i>
+
+                    <h3>AI Response</h3>
+
+                </div>
+
+
+                <div id="response">
+
+                    Your AI response will appear here...
+
+                </div>
+
+            </div>
+
+        </section>
+        <div class="response-actions">
+
+    <button id="copyBtn" class="action-btn">
+        <i class="fa-solid fa-copy"></i> Copy
+    </button>
+
+    <button id="downloadTxtBtn" class="action-btn">
+        <i class="fa-solid fa-file-lines"></i> TXT
+    </button>
+
+    <button id="downloadPdfBtn" class="action-btn">
+        <i class="fa-solid fa-file-pdf"></i> PDF
+    </button>
+
+</div>
+
+<div id="toast" class="toast">
+    <span id="toastText"></span>
+</div>
+
+        <!-- Quick Features -->
+
+        <section class="features">
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-circle-question"></i>
+
+                <h3>Q&A</h3>
+
+                <p>
+
+                    Ask educational questions and get instant AI answers.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-lightbulb"></i>
+
+                <h3>Explanation</h3>
+
+                <p>
+
+                    Understand difficult concepts with simple explanations.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-file-lines"></i>
+
+                <h3>Summary</h3>
+
+                <p>
+
+                    Convert long paragraphs into concise summaries.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-list-check"></i>
+
+                <h3>Quiz</h3>
+
+                <p>
+
+                    Generate MCQs automatically from any topic.
+
+                </p>
+
+            </div>
+
+            <div class="feature-card">
+
+                <i class="fa-solid fa-road"></i>
+
+                <h3>Learning Path</h3>
+
+                <p>
+
+                    Receive personalized study recommendations.
+
+                </p>
+
+            </div>
+
+        </section>
+
+        <!-- Statistics -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <h2>5+</h2>
+
+                <p>AI Modules</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>24/7</h2>
+
+                <p>Availability</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>Gemini AI</h2>
+
+                <p>Powered by Google</p>
+
+            </div>
+
+            <div class="stat-card">
+
+                <h2>FastAPI</h2>
+
+                <p>Backend API</p>
+
+            </div>
+
+        </section>
+                <!-- Footer -->
+
+        <footer class="footer">
+
+            <div class="footer-content">
+
+                <h3>EduGenie AI Learning Assistant</h3>
+
+                <p>
+                    Empowering students with Artificial Intelligence,
+                    Google Gemini, and FastAPI.
+                </p>
+
+                <div class="social-icons">
+
+                    <a href="#">
+                        <i class="fab fa-github"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-google"></i>
+                    </a>
+
+                    <a href="#">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+
+                </div>
+
+               
+
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+<!-- Floating AI Button -->
+
+<button class="floating-ai" id="floatingAI">
+
+    <i class="fa-solid fa-robot"></i>
+
+</button>
+
+<!-- Scroll to Top -->
+
+<button class="scroll-top" id="scrollTop">
+
+    <i class="fa-solid fa-arrow-up"></i>
+
+</button>
+
+<!-- Toast Notification -->
+
+<div class="toast" id="toast">
+
+    <i class="fa-solid fa-circle-check"></i>
+
+    <span id="toastText">
+        Request completed successfully.
+    </span>
+
+</div>
+
+<!-- Background Blobs -->
+
+<div class="bg-circle circle1"></div>
+
+<div class="bg-circle circle2"></div>
+
+<div class="bg-circle circle3"></div>
+
+<!-- JavaScript -->
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

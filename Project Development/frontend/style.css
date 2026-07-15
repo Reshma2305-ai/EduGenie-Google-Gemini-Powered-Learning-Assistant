@@ -1,0 +1,1030 @@
+/* =====================================
+   EduGenie AI Learning Assistant
+   style.css - Part 1
+===================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f5f7fb;
+    color:#222;
+    overflow-x:hidden;
+}
+
+.container{
+    display:flex;
+    min-height:100vh;
+}
+
+/* ===========================
+   Sidebar
+=========================== */
+
+.sidebar{
+    width:260px;
+    background:linear-gradient(180deg,#2563eb,#1d4ed8);
+    color:white;
+    padding:25px;
+    position:fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    box-shadow:0 10px 30px rgba(0,0,0,.15);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:40px;
+}
+
+.logo i{
+    font-size:32px;
+}
+
+.logo h2{
+    font-size:28px;
+    font-weight:700;
+}
+
+.sidebar ul{
+    list-style:none;
+}
+
+.sidebar ul li{
+    padding:15px;
+    margin-bottom:10px;
+    border-radius:12px;
+    cursor:pointer;
+    transition:.3s;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    font-size:16px;
+}
+
+.sidebar ul li:hover{
+    background:rgba(255,255,255,.15);
+}
+
+.sidebar ul li.active{
+    background:white;
+    color:#2563eb;
+    font-weight:600;
+}
+
+.sidebar ul li i{
+    width:22px;
+    text-align:center;
+}
+
+/* ===========================
+   Main Area
+=========================== */
+
+.main{
+    margin-left:260px;
+    width:calc(100% - 260px);
+    padding:35px;
+}
+
+/* ===========================
+   Navbar
+=========================== */
+
+.navbar{
+    background:white;
+    padding:18px 28px;
+    border-radius:18px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+    margin-bottom:35px;
+}
+
+.navbar h1{
+    color:#2563eb;
+    font-size:30px;
+    font-weight:700;
+}
+
+.profile{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.profile button{
+    width:45px;
+    height:45px;
+    border:none;
+    border-radius:50%;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    font-size:18px;
+    transition:.3s;
+}
+
+.profile button:hover{
+    transform:rotate(180deg);
+}
+
+.profile img{
+    width:55px;
+    height:55px;
+    border-radius:50%;
+    object-fit:cover;
+    border:3px solid #2563eb;
+}
+
+.profile span{
+    font-weight:600;
+    font-size:17px;
+}
+
+/* ===========================
+   Hero Section
+=========================== */
+
+.hero{
+    background:linear-gradient(135deg,#2563eb,#60a5fa);
+    color:white;
+    border-radius:22px;
+    padding:45px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+    overflow:hidden;
+    position:relative;
+}
+
+.hero::before{
+    content:"";
+    position:absolute;
+    width:250px;
+    height:250px;
+    background:rgba(255,255,255,.08);
+    border-radius:50%;
+    top:-70px;
+    right:-70px;
+}
+
+.hero h2{
+    font-size:42px;
+    margin-bottom:15px;
+}
+
+.hero p{
+    font-size:18px;
+    line-height:1.8;
+    max-width:650px;
+}
+
+.hero-icon i{
+    font-size:110px;
+    color:rgba(255,255,255,.25);
+}
+
+/* ===========================
+   Workspace
+=========================== */
+
+.workspace{
+    margin-top:30px;
+}
+
+.workspace h2{
+    font-size:32px;
+    color:#2563eb;
+    margin-bottom:25px;
+}
+
+.tool-selector{
+    margin-bottom:25px;
+}
+
+.tool-selector select{
+    width:280px;
+    padding:14px 16px;
+    border:none;
+    outline:none;
+    border-radius:12px;
+    background:white;
+    font-size:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+/* ===========================
+   Cards
+=========================== */
+
+.card{
+    background:white;
+    border-radius:18px;
+    padding:25px;
+    margin-bottom:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.card-header{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.card-header i{
+    font-size:22px;
+    color:#2563eb;
+}
+
+.card-header h3{
+    color:#2563eb;
+    font-size:22px;
+    font-weight:600;
+}/* =====================================
+   EduGenie AI Learning Assistant
+   style.css - Part 2
+=====================================*/
+
+/* ===========================
+   AI Input Card
+=========================== */
+.voice-controls{
+    display:flex;
+    gap:12px;
+    margin-top:15px;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+    background:#4f46e5;
+    color:white;
+    border:none;
+    padding:12px 18px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:.3s;
+    font-size:15px;
+}
+
+.action-btn:hover{
+    background:#4338ca;
+    transform:translateY(-2px);
+}
+
+.ai-card{
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+}
+
+.ai-card textarea{
+    width:100%;
+    min-height:180px;
+    resize:vertical;
+    border:2px solid #e5e7eb;
+    border-radius:15px;
+    padding:18px;
+    font-size:16px;
+    outline:none;
+    transition:.3s;
+    background:#fafafa;
+    color:#222;
+    line-height:1.7;
+}
+
+.ai-card textarea:focus{
+    border-color:#2563eb;
+    background:#fff;
+    box-shadow:0 0 12px rgba(37,99,235,.15);
+}
+
+.ai-card textarea::placeholder{
+    color:#9ca3af;
+}
+
+.ai-card button{
+    align-self:flex-start;
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    padding:15px 35px;
+    border-radius:12px;
+    font-size:17px;
+    cursor:pointer;
+    transition:.3s;
+    font-weight:600;
+}
+
+.ai-card button:hover{
+    background:#1d4ed8;
+    transform:translateY(-3px);
+    box-shadow:0 10px 20px rgba(37,99,235,.3);
+}
+
+.ai-card button i{
+    margin-right:8px;
+}
+
+/* ===========================
+   Loading
+=========================== */
+
+.loading{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    margin:30px 0;
+}
+
+.hidden{
+    display:none;
+}
+
+.loader{
+    width:60px;
+    height:60px;
+    border:6px solid #e5e7eb;
+    border-top:6px solid #2563eb;
+    border-radius:50%;
+    animation:spin 1s linear infinite;
+    margin-bottom:15px;
+}
+
+@keyframes spin{
+
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+
+}
+
+.loading p{
+    color:#2563eb;
+    font-size:18px;
+    font-weight:600;
+}
+
+/* ===========================
+   AI Output
+=========================== */
+.response-actions{
+    display:flex;
+    gap:12px;
+    margin-top:20px;
+    flex-wrap:wrap;
+}
+
+.action-btn{
+
+    background:#4f46e5;
+
+    color:#fff;
+
+    border:none;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+.action-btn:hover{
+
+    background:#4338ca;
+
+    transform:translateY(-2px);
+
+}
+
+.toast{
+
+    position:fixed;
+
+    bottom:30px;
+
+    right:30px;
+
+    background:#222;
+
+    color:white;
+
+    padding:15px 22px;
+
+    border-radius:10px;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.4s;
+
+    z-index:999;
+
+}
+
+.toast.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+/* =====================================
+PDF Upload Card
+===================================== */
+
+.pdf-upload-card{
+
+    background:#fff;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    margin-top:25px;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+
+}
+
+.pdf-upload-card h3{
+
+    color:#4f46e5;
+
+    margin-bottom:10px;
+
+}
+
+.upload-text{
+
+    color:#666;
+
+    margin-bottom:18px;
+
+}
+
+.upload-box{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    flex-wrap:wrap;
+
+}
+
+.upload-btn{
+
+    background:#4f46e5;
+
+    color:white;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+.upload-btn:hover{
+
+    background:#4338ca;
+
+}
+
+#pdfName{
+
+    font-weight:500;
+
+    color:#444;
+
+}
+
+.generate-btn{
+
+    margin-top:22px;
+
+    background:#16a34a;
+
+    color:white;
+
+    border:none;
+
+    padding:13px 24px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-size:16px;
+
+    transition:.3s;
+
+}
+
+.generate-btn:hover{
+
+    background:#15803d;
+
+    transform:translateY(-2px);
+
+}
+body.dark .pdf-upload-card{
+
+    background:#1e293b;
+
+}
+
+body.dark .upload-text{
+
+    color:#cbd5e1;
+
+}
+
+body.dark #pdfName{
+
+    color:white;
+
+}
+.output-card{
+    margin-top:20px;
+}
+
+#response{
+    min-height:220px;
+    background:#f9fafb;
+    border:2px solid #e5e7eb;
+    border-radius:15px;
+    padding:20px;
+    font-size:16px;
+    line-height:1.8;
+    white-space:pre-wrap;
+    overflow:auto;
+    color:#374151;
+}
+
+#response::-webkit-scrollbar{
+    width:8px;
+}
+
+#response::-webkit-scrollbar-thumb{
+    background:#2563eb;
+    border-radius:10px;
+}
+
+/* ===========================
+   Features
+=========================== */
+
+.features{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:25px;
+    margin-top:40px;
+}
+
+.feature-card{
+    background:#fff;
+    border-radius:18px;
+    padding:30px;
+    text-align:center;
+    transition:.35s;
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
+}
+
+.feature-card:hover{
+    transform:translateY(-8px);
+}
+
+.feature-card i{
+    font-size:45px;
+    color:#2563eb;
+    margin-bottom:18px;
+}
+
+.feature-card h3{
+    font-size:23px;
+    margin-bottom:12px;
+    color:#1f2937;
+}
+
+.feature-card p{
+    color:#6b7280;
+    line-height:1.7;
+}
+pre{
+
+    white-space:pre-wrap;
+
+    font-size:16px;
+
+    line-height:1.8;
+
+    font-family:Arial,sans-serif;
+
+}
+.loading{
+
+    font-size:18px;
+
+    color:#4f46e5;
+
+    animation:pulse 1s infinite;
+
+}
+
+@keyframes pulse{
+
+    0%{
+
+        opacity:.3;
+
+    }
+
+    50%{
+
+        opacity:1;
+
+    }
+
+    100%{
+
+        opacity:.3;
+
+    }
+
+}
+
+/* ===========================
+   Statistics
+=========================== */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    margin-top:45px;
+}
+
+.stat-card{
+    background:linear-gradient(135deg,#2563eb,#3b82f6);
+    color:#fff;
+    border-radius:18px;
+    padding:30px;
+    text-align:center;
+    transition:.35s;
+}
+
+.stat-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 12px 30px rgba(37,99,235,.35);
+}
+
+.stat-card h2{
+    font-size:38px;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+.stat-card p{
+    font-size:17px;
+    opacity:.95;
+}/* =====================================
+   EduGenie AI Learning Assistant
+   style.css - Part 3
+=====================================*/
+
+/* ========= Footer ========= */
+
+.footer{
+    margin-top:60px;
+    background:#111827;
+    color:#fff;
+    border-radius:20px 20px 0 0;
+    padding:50px 30px;
+    text-align:center;
+}
+
+.footer h3{
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+.footer p{
+    color:#d1d5db;
+    line-height:1.8;
+}
+
+.social-icons{
+    margin:25px 0;
+}
+
+.social-icons a{
+    width:50px;
+    height:50px;
+    display:inline-flex;
+    justify-content:center;
+    align-items:center;
+    margin:0 10px;
+    border-radius:50%;
+    background:#2563eb;
+    color:#fff;
+    font-size:20px;
+    text-decoration:none;
+    transition:.3s;
+}
+
+.social-icons a:hover{
+    transform:translateY(-5px) scale(1.1);
+    background:#1d4ed8;
+}
+
+.copyright{
+    margin-top:20px;
+    font-size:14px;
+}
+
+/* ========= Floating AI ========= */
+
+.floating-ai{
+    position:fixed;
+    right:25px;
+    bottom:90px;
+    width:65px;
+    height:65px;
+    border:none;
+    border-radius:50%;
+    background:#2563eb;
+    color:#fff;
+    font-size:28px;
+    cursor:pointer;
+    box-shadow:0 10px 25px rgba(37,99,235,.35);
+    transition:.3s;
+    z-index:999;
+}
+
+.floating-ai:hover{
+    transform:scale(1.1);
+}
+
+/* ========= Scroll Top ========= */
+
+.scroll-top{
+    position:fixed;
+    right:25px;
+    bottom:15px;
+    width:55px;
+    height:55px;
+    border:none;
+    border-radius:50%;
+    background:#111827;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    display:none;
+    z-index:999;
+    transition:.3s;
+}
+
+.scroll-top:hover{
+    background:#2563eb;
+}
+
+/* ========= Toast ========= */
+
+.toast{
+    position:fixed;
+    top:25px;
+    right:25px;
+    background:#10b981;
+    color:white;
+    padding:18px 22px;
+    border-radius:12px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    transform:translateX(400px);
+    transition:.4s;
+    z-index:999;
+    box-shadow:0 10px 20px rgba(0,0,0,.2);
+}
+
+.toast.show{
+    transform:translateX(0);
+}
+
+.toast i{
+    font-size:22px;
+}
+
+/* ========= Background Circles ========= */
+
+.bg-circle{
+    position:fixed;
+    border-radius:50%;
+    z-index:-1;
+    filter:blur(80px);
+    opacity:.2;
+}
+
+.circle1{
+    width:300px;
+    height:300px;
+    background:#3b82f6;
+    top:-100px;
+    left:-100px;
+}
+
+.circle2{
+    width:350px;
+    height:350px;
+    background:#8b5cf6;
+    right:-120px;
+    top:250px;
+}
+
+.circle3{
+    width:250px;
+    height:250px;
+    background:#06b6d4;
+    left:45%;
+    bottom:-120px;
+}
+
+/* ========= Animations ========= */
+
+.hero,
+.card,
+.feature-card,
+.stat-card{
+    animation:fadeUp .8s ease;
+}
+
+@keyframes fadeUp{
+
+    from{
+        opacity:0;
+        transform:translateY(30px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+/* ========= Dark Mode ========= */
+
+body.dark{
+    background:#0f172a;
+    color:white;
+}
+
+body.dark .navbar,
+body.dark .card,
+body.dark .feature-card,
+body.dark .tool-selector select{
+    background:#1e293b;
+    color:white;
+}
+
+body.dark textarea{
+    background:#111827;
+    color:white;
+    border:1px solid #374151;
+}
+
+body.dark #response{
+    background:#111827;
+    color:#f3f4f6;
+    border:1px solid #374151;
+}
+
+body.dark .feature-card p{
+    color:#d1d5db;
+}
+
+body.dark .footer{
+    background:#020617;
+}
+
+/* ========= Responsive ========= */
+
+@media(max-width:1000px){
+
+    .sidebar{
+        width:80px;
+    }
+
+    .sidebar h2{
+        display:none;
+    }
+
+    .sidebar ul li{
+        justify-content:center;
+    }
+
+    .sidebar ul li i{
+        margin:0;
+    }
+
+    .main{
+        margin-left:80px;
+        width:calc(100% - 80px);
+    }
+
+    .hero{
+        flex-direction:column;
+        text-align:center;
+    }
+
+    .hero-icon{
+        margin-top:30px;
+    }
+
+}
+
+@media(max-width:768px){
+
+    .navbar{
+        flex-direction:column;
+        gap:20px;
+    }
+
+    .features,
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .tool-selector select{
+        width:100%;
+    }
+
+    .floating-ai{
+        right:18px;
+    }
+
+}
+
+@media(max-width:600px){
+
+    .sidebar{
+        display:none;
+    }
+
+    .main{
+        margin-left:0;
+        width:100%;
+        padding:20px;
+    }
+
+    .hero h2{
+        font-size:30px;
+    }
+
+    .hero p{
+        font-size:15px;
+    }
+
+    .navbar h1{
+        font-size:22px;
+        text-align:center;
+    }
+
+    .card{
+        padding:18px;
+    }
+
+}
