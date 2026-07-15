@@ -1,75 +1,140 @@
-# EduGenie – AI Powered Learning Assistant
+# 🎓 EduGenie – AI Powered Learning Assistant
 
-## Project Description
+## 📖 Project Description
 
-EduGenie is an AI-powered educational web application that helps students learn efficiently using Google Gemini AI. It provides intelligent question answering, concept explanation, text summarization, quiz generation, personalized learning paths, and PDF summarization through a modern web interface.
-
----
-
-## Features
-
-- AI Question Answering
-- Concept Explanation
-- Text Summarization
-- Quiz Generation
-- Personalized Learning Path
-- PDF Upload and Summarization
-- Voice Input
-- Text-to-Speech
-- Copy Response
-- Download Response as PDF
-- Download Response as TXT
-- Dark/Light Mode
-- Responsive User Interface
+EduGenie is an AI-powered educational web application developed to help students learn more effectively using the Google Gemini API. The application provides intelligent question answering, concept explanation, quiz generation, text summarization, personalized learning paths, and PDF summarization through a modern and responsive web interface.
 
 ---
 
-## Technologies Used
+## ✨ Features
 
+- 🤖 AI Question Answering
+- 📚 Concept Explanation
+- 📝 Text Summarization
+- ❓ Quiz Generation
+- 🎯 Personalized Learning Path
+- 📄 PDF Upload and Summarization
+- 🎤 Voice Input
+- 🔊 Text-to-Speech
+- 📋 One-click Copy Response
+- 📥 Download Response as PDF
+- 📥 Download Response as TXT
+- 🌙 Dark/Light Mode
+- 📱 Responsive User Interface
+
+---
+
+## 🛠️ Technologies Used
+
+### Frontend
 - HTML5
 - CSS3
 - JavaScript
+
+### Backend
 - Python
 - FastAPI
+
+### AI Integration
 - Google Gemini API
+
+### Development Tools
+- Visual Studio Code
+- Git
+- GitHub
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 EduGenie/
 │
+├── 1. Brainstorming & Ideation
+├── 2. Requirement Analysis
+├── 3. Project Design Phase
+├── 4. Project Planning
+├── 5. Project Development
+├── 6. Project Testing
+├── 7. Project Documentation
+├── 8. Project Demonstration
 ├── backend/
 ├── frontend/
-├── Documentation/
-├── README.md
+└── README.md
 ```
 
 ---
 
-## Documentation
+## 🚀 Installation
 
-The complete project report is available in:
+1. Clone the repository
 
+```bash
+git clone https://github.com/deepikakola5-glitch/EduGenie.git
 ```
-Documentation/EDUGENIE_Project_Report.pdf
+
+2. Navigate to the backend folder
+
+```bash
+cd backend
 ```
+
+3. Install the required packages
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Add your Gemini API key to the `.env` file
+
+```text
+GEMINI_API_KEY=YOUR_API_KEY
+```
+
+5. Start the FastAPI server
+
+```bash
+uvicorn main:app --reload
+```
+
+6. Open the frontend in your browser.
 
 ---
 
-## Demo Video
+## 📄 Documentation
+
+The complete project documentation is available in the **Project Documentation** folder.
+
+---
+
+## 🎥 Demo Video
+
+Google Drive:
+
 https://drive.google.com/file/d/105DCiruNambyUuyNr6lS5ArOwjUy50BI/view?usp=sharing
-```
 
 ---
 
-## GitHub Repository
+## 💻 GitHub Repository
 
 https://github.com/deepikakola5-glitch/EduGenie
 
 ---
 
-## Author
+## 👩‍💻 Author
 
 **Kola Deepika**
+
+B.Tech – Computer Science and Systems Engineering
+
+Andhra University College of Engineering for Women
+
+---
+
+## ⭐ Acknowledgements
+
+- Google Gemini API
+- FastAPI
+- HTML, CSS, JavaScript
+- Python
+- GitHub
