@@ -123,10 +123,10 @@ https://github.com/Reshma2305-ai/EduGenie-Google-Gemini-Powered-Learning-Assista
 
 ## 👩‍💻 Author
 
-**Adapaka Veera Durga Sai Reshma**
-**Sudha Adari**
-**Gandikota Purna Durga**
-**Jajula Venkateswara Reddy**
+**Adapaka Veera Durga Sai Reshma ,**
+**Sudha Adari ,**
+**Gandikota Purna Durga ,**
+**Jajula Venkateswara Reddy and**
 **Chittimoju Swaroop**
 
 B.Tech – Computer Science and Engineering
