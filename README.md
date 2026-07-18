@@ -70,7 +70,7 @@ EduGenie/
 1. Clone the repository
 
 ```bash
-git clone https://github.com/deepikakola5-glitch/EduGenie.git
+https://github.com/Reshma2305-ai/EduGenie-Google-Gemini-Powered-Learning-Assistant
 ```
 
 2. Navigate to the backend folder
@@ -117,7 +117,7 @@ https://drive.google.com/file/d/105DCiruNambyUuyNr6lS5ArOwjUy50BI/view?usp=shari
 
 ## 💻 GitHub Repository
 
-
+https://github.com/Reshma2305-ai/EduGenie-Google-Gemini-Powered-Learning-Assistant
 
 ---
 
