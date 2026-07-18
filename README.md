@@ -117,17 +117,21 @@ https://drive.google.com/file/d/105DCiruNambyUuyNr6lS5ArOwjUy50BI/view?usp=shari
 
 ## 💻 GitHub Repository
 
-https://github.com/deepikakola5-glitch/EduGenie
+
 
 ---
 
 ## 👩‍💻 Author
 
-**Kola Deepika**
+**Adapaka Veera Durga Sai Reshma**
+**Sudha Adari**
+**Gandikota Purna Durga**
+**Jajula Venkateswara Reddy**
+**Chittimoju Swaroop**
 
-B.Tech – Computer Science and Systems Engineering
+B.Tech – Computer Science and Engineering
 
-Andhra University College of Engineering for Women
+Aditya College of Engineering and Technology
 
 ---
 
